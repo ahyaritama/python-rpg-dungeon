@@ -12,7 +12,22 @@ def create_account(x):
             break
         print(msg)
     
+    stats = {
+        "hp": 100,
+        "max_hp": 100,
+        "atk": 15,
+        "def": 5,
+        "exp": 0,
+        "level": 1
+    }
     _add_auth(username, password)
+    with open(f"storage/players/{username}", "w") as f:
+        f.write(f"HP:{stats["hp"]}\n")
+        f.write(f"Max HP:{stats["max_hp"]}\n")
+        f.write(f"ATK:{stats["atk"]}\n")
+        f.write(f"DEF:{stats["def"]}\n")
+        f.write(f"Exp:{stats["exp"]}\n")
+        f.write(f"Level:{stats["level"]}")
 
 def _validate(username: str, password: str) -> bool:
     username_status = True
