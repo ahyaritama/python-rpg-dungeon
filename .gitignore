@@ -1,2 +1,6 @@
-storage/*/*
 __pycache__/
+
+
+
+# Temp, will delete later
+main.py
