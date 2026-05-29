@@ -16,5 +16,5 @@ def create_account(x):
         print(msg)
 
     stats = add_player(username, password)
-    print(stats)
+    print(f"Successfully create account {username}\n")
     return Player(username, **stats)
