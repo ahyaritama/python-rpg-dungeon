@@ -1,6 +1,17 @@
-class Player:
-    def __init__(self, name, damage, defence, health):
-        self.name = name
-        self.damage = damage
-        self.defence = defence
-        self.health = health
+from .character import Character
+
+class Player(Character):
+    def __init__(
+        self,
+        name: str,
+        money: int,
+        health: int,
+        max_hp: int,
+        attack: int,
+        defence: int,
+        exp: int,
+        level: int
+    ):
+        super().__init__(name, health, max_hp, attack, defence, exp, level)
+        self.money = money
+    
