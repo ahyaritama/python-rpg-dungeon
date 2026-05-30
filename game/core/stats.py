@@ -1,7 +1,7 @@
 import utils
 from structure.player import Player
 
-def stats(player: Player):
+def show_stats(player: Player):
     utils.clear_screen()
     header = "=" * 10 + " STATS " + "=" * 10
 

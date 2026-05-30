@@ -1,11 +1,11 @@
-def load():
+def load() -> dict[str, str]:
     try:
-        f = open("storage/auth")
+        f = open("game/storage/auth")
     except FileNotFoundError:
-        open("storage/auth", "x")
+        open("game/storage/auth", "x")
         return {}
     
-    auth_dict = {}
+    auth_dict: dict[str, str] = {}
     for l in f:
         username, password = l.split(",", 2)
         auth_dict[username] = str(password).strip()

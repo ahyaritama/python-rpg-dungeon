@@ -1,10 +1,15 @@
-import utils
-from .stats import stats
-from structure.player import Player
+# import utils
+# from .stats import stats
+# from structure.player import Player
+
+from .stats import show_stats
+from ..struct.player import Player
+from ..util.view import clear_screen
+
 
 def main_menu(player: Player):
     while True:
-        utils.clear_screen()
+        clear_screen()
         header = "=" * 10 + " MAIN MENU " + "=" * 10
 
         print(f"{'Name':<8}: {player.name}")
@@ -18,13 +23,14 @@ def main_menu(player: Player):
         print("=" * len(header))
         print("[1] View Stats")
         print("[2] Explore")
-        print("[3] Inventory")
+        print("[3] Skills")
+        print("[4] Inventory")
         print("[*] Logout")
 
         choice = input("Your Choice: ")
         match choice:
             case "1":
-                stats(player)
+                show_stats(player)
             case "2":
                 pass
             case "3":

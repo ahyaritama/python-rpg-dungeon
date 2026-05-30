@@ -7,7 +7,6 @@ class Item:
 
 def init():
     item_dict = {
-
         "ATK_01": Item("Rusty Sword", "ATK_01", 10, 250),
         "ATK_02": Item("Wooden Bow", "ATK_02", 7, 120),
         "ATK_03": Item("X-Bow", "ATK_03", 10, 300),
@@ -20,6 +19,6 @@ def init():
         "HP_01": Item("Bread", "HP_01", 5, 15),
         "HP_02": Item("Health Potion", "HP_02", 10, 60),
         "HP_03": Item("Meat", "HP_03", 7, 30)
-        }
+    }
     
     return item_dict

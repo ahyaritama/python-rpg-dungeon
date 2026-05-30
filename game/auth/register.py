@@ -1,17 +1,20 @@
-from structure import Player
-from utils import add_player, validate
+from ..struct.player import Player
+from ..util.auth import (
+    add_player,
+    validate
+)
 
-def create_account(x):
+def register(players: dict[str, str]):
     while True:
         username = input("Input your username: ")
-        if username in x:
+        if username in players:
             print("[*] Username already taken\n")
             continue
         
         password = input("Input your password: ")
         ok, msg = validate(username, password)
         if ok:
-            x[username] = password
+            players[username] = password
             break
         print(msg)
 

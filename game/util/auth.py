@@ -1,24 +1,41 @@
-from core.const import DEFAULT_STATS
-from structure import Player
+from ..const import DEFAULT_STATS
+from ..struct.player import Player
 
-def add_player(username: str, password: str):
-    with open("storage/auth", "a") as f:
+
+def add_player(username: str, password: str) -> dict[str, int]:
+    with open("game/storage/auth", "a") as f:
         f.write(f"{username},{password}\n")
     
-    with open(f"storage/stats/{username}", "w") as f:
+    with open(f"game/storage/items/{username}", "x") as f:
+        pass
+
+    with open(f"game/storage/skills/{username}", "x") as f:
+        pass
+
+    with open(f"game/storage/stats/{username}", "w") as f:
         for k, v in DEFAULT_STATS.items():
             f.write(f"{k}={v}\n")
-    
+
     return DEFAULT_STATS
 
-def get_player(username: str):
-    stats = {}
-    with open(f"storage/stats/{username}", "r") as f:
-        for l in f:
-            key, value = l.split("=", 1)
-            stats[key] = int(value)
 
+def get_player_items(username: str):
+    pass
+
+
+def get_player_skills(username: str):
+    pass
+
+
+def get_player_stats(username: str) -> dict[str, int]:
+    stats: dict[str, int] = {}
+    with open(f"game/storage/stats/{username}", "r") as f:
+        for line in f:
+            key, value = line.split("=", 1)
+            stats[key] = int(value)
+    
     return stats
+
 
 def validate(username: str, password: str) -> bool:
     username_status = True
