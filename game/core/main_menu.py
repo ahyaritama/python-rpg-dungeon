@@ -1,7 +1,8 @@
+from .inventory import show_inventory
 from .stats import show_stats
+
 from ..struct.player import Player
 from ..util.view import clear_screen
-
 
 def main_menu(player: Player):
     while True:
@@ -32,7 +33,7 @@ def main_menu(player: Player):
             case "3":
                 pass
             case "4":
-                pass
+                show_inventory(player)
             case _:
                 print("Logging Out...\n")
                 break

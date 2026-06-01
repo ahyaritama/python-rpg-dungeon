@@ -1,8 +1,8 @@
-import utils
-from structure.player import Player
+from ..util.view import clear_screen
+from game.struct.player import Player
 
 def show_stats(player: Player):
-    utils.clear_screen()
+    util.clear_screen()
     header = "=" * 10 + " STATS " + "=" * 10
 
     print(f"{'Name':<8}: {player.name}")
@@ -10,7 +10,7 @@ def show_stats(player: Player):
     print(header)
     
     for k, v in player.stats.items():
-        print(f"{k:<7}: {v}")
+        print(f"{k:<7}: {v}{'/100' if k == 'Exp' else ''}")
 
     print("=" * len(header))
     input("[Back]")
