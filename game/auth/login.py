@@ -22,4 +22,4 @@ def login(players: dict[str, str], items: dict[str, Item]):
     stats = get_player_stats(username)
 
     print(f"Successfully login using account {username}\n")
-    return Player(username, **stats)
+    return Player(username, stats, skills, p_items)
