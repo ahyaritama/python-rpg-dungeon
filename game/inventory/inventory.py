@@ -38,3 +38,24 @@ class Inventory:
         new_item.next = self.head
         self.head.prev = new_item
         self.head = new_item
+
+    def delete(self, data : Item):
+        current = self.head
+
+        while current is not None:
+            if current.data.name == data.name:
+                if current == self.head:    
+                    self.head = current.next
+                    if self.head is not None:
+                        self.head.prev = None
+                
+                else:
+                    current.prev.next = current.next
+                    if current.next is not None:
+                        current.next.prev = current.prev
+                
+                return True
+            
+            current = current.next
+
+        return False
