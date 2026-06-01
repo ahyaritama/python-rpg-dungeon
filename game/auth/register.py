@@ -1,3 +1,4 @@
+from ..inventory.inventory import Inventory
 from ..struct.player import Player
 from ..util.auth import (
     add_player,
@@ -20,4 +21,4 @@ def register(players: dict[str, str]):
 
     stats = add_player(username, password)
     print(f"Successfully create account {username}\n")
-    return Player(username, **stats)
+    return Player(username, stats, None, Inventory())
