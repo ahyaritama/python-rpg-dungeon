@@ -1,17 +1,20 @@
 from .character import Character
 
+from ..inventory import Inventory
+
 class Player(Character):
     def __init__(
         self,
         name: str,
-        money: int,
-        health: int,
-        max_hp: int,
-        attack: int,
-        defence: int,
-        exp: int,
-        level: int
+        stats: dict[str, int],
+        skills,
+        bag: Inventory
     ):
-        super().__init__(name, health, max_hp, attack, defence, exp, level)
-        self.money = money
+        self.money, *stats = stats.values()
+        self.skills = skills
+        self.bag = bag
+
+        super().__init__(name, *stats)
     
+    def learn_skill(self):
+        pass
