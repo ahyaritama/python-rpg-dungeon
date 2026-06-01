@@ -1,0 +1,1 @@
+from .view import clear_screen

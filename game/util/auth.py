@@ -1,4 +1,6 @@
 from ..const import DEFAULT_STATS
+from ..inventory.inventory import Inventory, InventoryItem
+from ..inventory.item import Item
 from ..struct.player import Player
 
 
@@ -19,8 +21,15 @@ def add_player(username: str, password: str) -> dict[str, int]:
     return DEFAULT_STATS
 
 
-def get_player_items(username: str):
-    pass
+def get_player_items(username: str, items: dict[str, Item]) -> Inventory:
+    inventory = Inventory()
+
+    with open(f"game/storage/items/{username}", "r") as f:
+        for line in f:
+            code, qty = line.split(",", 1)
+            inventory.insert(items[code], int(qty))
+    
+    return inventory
 
 
 def get_player_skills(username: str):
