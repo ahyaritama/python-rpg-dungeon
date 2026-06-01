@@ -1,7 +1,3 @@
-# import utils
-# from .stats import stats
-# from structure.player import Player
-
 from .stats import show_stats
 from ..struct.player import Player
 from ..util.view import clear_screen
@@ -34,6 +30,8 @@ def main_menu(player: Player):
             case "2":
                 pass
             case "3":
+                pass
+            case "4":
                 pass
             case _:
                 print("Logging Out...\n")
