@@ -20,3 +20,21 @@ class Inventory:
             current = current.next
 
         return None, 0
+    
+    def insert(self, data: Item, qty: int):
+        if self.head is None:
+            self.head = InventoryItem(data, qty)
+            return 
+        
+        current = self.head
+        while current is not None:
+            if current.data.name == data.name:
+                current.qty += qty
+                return
+            current = current.next
+        
+        new_item = InventoryItem(data, qty)
+        
+        new_item.next = self.head
+        self.head.prev = new_item
+        self.head = new_item
