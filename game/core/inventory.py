@@ -1,6 +1,6 @@
 from ..inventory import Inventory, InventoryItem
-from ..struct.player import Player
-from ..util.view import clear_screen
+from ..struct import Player
+from ..util import clear_screen
 
 def show_inventory(player: Player):
     while True:
@@ -67,9 +67,19 @@ def _browse(player: Player, node: InventoryItem, ok=False):
             case "2":
                 ok = _browse(player, node.next, True)
             case "3":
-                return True
+                player.equip(node.data)
+                if node.qty == 0:
+                    player.bag.delete(node.data)
+                    return True
+                continue
             case "4":
-                return True
+                player.money += node.data.price
+                node.qty -= 1
+                print(f"Successfully sell {node.data.name}")
+                if node.qty == 0:
+                    player.bag.delete(node.data)
+                    return True
+                continue
             case "5":
                 return True
             case _:
@@ -86,6 +96,13 @@ def _show_all(player: Player):
     print(f"{'Name':<8}: {player.name}")
     print(f"{'Balance':<8}: {player.money}")
     print(header)
+
+    current = player.bag.head
+    table_head = f"| {'Name':^11} | {'Code':^6} | {'Qty.':^4} |"
+    print(f"{table_head}\n{'-' * len(table_head)}")
+    while current:
+        print(f"| {current.data.name:<11} | {current.data.code:<6} | {current.qty:<4} |")
+        current = current.next
 
     print("=" * len(header))
     input("[Back]")

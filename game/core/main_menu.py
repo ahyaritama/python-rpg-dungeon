@@ -1,8 +1,8 @@
 from .inventory import show_inventory
 from .stats import show_stats
 
-from ..struct.player import Player
-from ..util.view import clear_screen
+from ..struct import Player
+from ..util import clear_screen
 
 def main_menu(player: Player):
     while True:
