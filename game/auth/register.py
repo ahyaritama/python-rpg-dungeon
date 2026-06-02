@@ -1,6 +1,6 @@
-from ..inventory.inventory import Inventory
-from ..struct.player import Player
-from ..util.auth import (
+from ..inventory import Inventory
+from ..struct import Player
+from ..util import (
     add_player,
     validate
 )
