@@ -3,7 +3,7 @@ from ..struct import Player
 
 def show_stats(player: Player):
     clear_screen()
-    header = "=" * 10 + " STATS " + "=" * 10
+    header = "=" * 12 + " STATS " + "=" * 12
 
     print(f"{'Name':<8}: {player.name}")
     print(f"{'Balance':<8}: {player.money}")

@@ -22,8 +22,8 @@ class Player(Character):
 
         super().__init__(name, *stats)
     
-    def learn_skill(self):
-        pass
-
     def equip(self, item: Item):
+        return self.equipment.equip(self.name, item)  
+
+    def learn_skill(self):
         pass
