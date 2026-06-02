@@ -7,4 +7,3 @@ DEFAULT_STATS = {
     "exp": 0,
     "level": 1
 }
-
