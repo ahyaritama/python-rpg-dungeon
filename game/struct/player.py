@@ -11,7 +11,7 @@ class Player(Character):
         self,
         name: str,
         stats: dict[str, int],
-        skills,
+        skills: set[str],
         bag: Inventory,
         equipment: Equipment
     ):

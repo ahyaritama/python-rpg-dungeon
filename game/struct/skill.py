@@ -1,6 +1,7 @@
 class Skill:
-    def __init__(self, _id: int, _type: str, effect: int, min_level: int):
+    def __init__(self, _id: int, name: str, _type: str, effect: int, min_level: int):
         self.id = _id
+        self.name = name
         self.type = _type
         self.effect = effect
         self.min_level = min_level
