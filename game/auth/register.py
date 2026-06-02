@@ -21,7 +21,7 @@ def register(players: dict[str, str]):
 
     equipment = Equipment(set(), set())
     bag = Inventory()
-    skill = None
+    skill: set[str] = set()
     stats = add_player(username, password)
 
     print(f"Successfully create account {username}\n")
