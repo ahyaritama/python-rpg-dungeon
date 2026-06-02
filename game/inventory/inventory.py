@@ -27,17 +27,18 @@ class Inventory:
             return 
         
         current = self.head
+        tail: InventoryItem = None
         while current is not None:
             if current.data.name == data.name:
                 current.qty += qty
                 return
+            elif current.next is None:
+                tail = current
             current = current.next
         
         new_item = InventoryItem(data, qty)
-        
-        new_item.next = self.head
-        self.head.prev = new_item
-        self.head = new_item
+        tail.next = new_item
+        new_item.prev = tail
 
     def delete(self, data : Item):
         current = self.head
