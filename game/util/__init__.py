@@ -8,7 +8,7 @@ from .player import (
     get_player_skills,
     get_player_stats,
     set_player_equipment,
-    set_player_items,x
+    set_player_items,
     set_player_skills,
     set_player_stats
 )
