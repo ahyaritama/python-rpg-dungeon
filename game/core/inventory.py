@@ -1,11 +1,15 @@
 from ..inventory import Inventory, InventoryItem
 from ..struct import Player
-from ..util import clear_screen
+from ..util import (
+    clear_screen,
+    set_player_items,
+    set_player_stats
+)
 
 def show_inventory(player: Player):
     while True:
         clear_screen()
-        header = "=" * 10 + " INVENTORY " + "=" * 10
+        header = "=" * 12 + " INVENTORY " + "=" * 12
 
         print(f"{'Name':<8}: {player.name}")
         print(f"{'Balance':<8}: {player.money}")
@@ -17,6 +21,7 @@ def show_inventory(player: Player):
         print("=" * len(header))
         print("[1] Show All")
         print("[2] Browse")
+        print("[3] Search")
         print("[*] Back")
 
         choice = input("Your Choice: ")
@@ -34,7 +39,7 @@ def show_inventory(player: Player):
 def _browse(player: Player, node: InventoryItem, ok=False):
     while True:
         clear_screen()
-        header = "=" * 10 + " INVENTORY " + "=" * 10
+        header = "=" * 12 + " INVENTORY " + "=" * 12
 
         print(f"{'Name':<8}: {player.name}")
         print(f"{'Balance':<8}: {player.money}")
@@ -48,6 +53,7 @@ def _browse(player: Player, node: InventoryItem, ok=False):
             return ok
         
         print(f"{'Name':<7}: {node.data.name}")
+        print(f"{'Code':<7}: {node.data.code}")
         print(f"{'Effect':<7}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
         print(f"{'Price':<7}: {node.data.price}")
         print(f"{'Qty':<7}: {node.qty}")
@@ -67,17 +73,27 @@ def _browse(player: Player, node: InventoryItem, ok=False):
             case "2":
                 ok = _browse(player, node.next, True)
             case "3":
-                player.equip(node.data)
+                ok, msg = player.equip(node.data)
+                print(msg)
+                if not ok:
+                    continue
+                
+                node.qty -= 1
                 if node.qty == 0:
                     player.bag.delete(node.data)
+                    set_player_items(player.name, player.bag)
                     return True
+                set_player_items(player.name, player.bag)
                 continue
             case "4":
                 player.money += node.data.price
                 node.qty -= 1
+                set_player_stats(player)
                 print(f"Successfully sell {node.data.name}")
+
                 if node.qty == 0:
                     player.bag.delete(node.data)
+                    set_player_items(player.name, player.bag)
                     return True
                 continue
             case "5":
@@ -90,19 +106,24 @@ def _browse(player: Player, node: InventoryItem, ok=False):
 
 
 def _show_all(player: Player):
-    clear_screen()
-    header = "=" * 10 + " INVENTORY " + "=" * 10
+    while True:
+        clear_screen()
+        header = "=" * 12 + " INVENTORY " + "=" * 12
 
-    print(f"{'Name':<8}: {player.name}")
-    print(f"{'Balance':<8}: {player.money}")
-    print(header)
+        print(f"{'Name':<8}: {player.name}")
+        print(f"{'Balance':<8}: {player.money}")
+        print(header)
 
-    current = player.bag.head
-    table_head = f"| {'Name':^11} | {'Code':^6} | {'Qty.':^4} |"
-    print(f"{table_head}\n{'-' * len(table_head)}")
-    while current:
-        print(f"| {current.data.name:<11} | {current.data.code:<6} | {current.qty:<4} |")
-        current = current.next
+        current = player.bag.head
+        table_head = f"| {'Name':^15} | {'Code':^6} | {'Qty.':^4} |"
+        print(f"{table_head}\n{'-' * len(table_head)}")
+        while current:
+            print(f"| {current.data.name:<15} | {current.data.code:<6} | {current.qty:<4} |")
+            current = current.next
 
-    print("=" * len(header))
-    input("[Back]")
+        print("=" * len(header))
+        print("[1] Sort by Code")
+        print("[2] Sort by Effect")
+        print("[3] Sort by Price")
+        input("[Back]")
+        break
