@@ -11,8 +11,8 @@ def show_inventory(player: Player):
         clear_screen()
         header = "=" * 12 + " INVENTORY " + "=" * 12
 
-        print(f"{'Name':<8}: {player.name}")
-        print(f"{'Balance':<8}: {player.money}")
+        print(f"{'Name    '}: {player.name}")
+        print(f"{'Balance '}: {player.money}")
         print(header)
 
         print("Here you can see the items")
@@ -41,8 +41,8 @@ def _browse(player: Player, node: InventoryItem, ok=False):
         clear_screen()
         header = "=" * 12 + " INVENTORY " + "=" * 12
 
-        print(f"{'Name':<8}: {player.name}")
-        print(f"{'Balance':<8}: {player.money}")
+        print(f"{'Name    '}: {player.name}")
+        print(f"{'Balance '}: {player.money}")
         print(header)
 
         if not node:
@@ -52,11 +52,11 @@ def _browse(player: Player, node: InventoryItem, ok=False):
             input("[Back]")
             return ok
         
-        print(f"{'Name':<7}: {node.data.name}")
-        print(f"{'Code':<7}: {node.data.code}")
-        print(f"{'Effect':<7}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
-        print(f"{'Price':<7}: {node.data.price}")
-        print(f"{'Qty':<7}: {node.qty}")
+        print(f"{'Name   '}: {node.data.name}")
+        print(f"{'Code   '}: {node.data.code}")
+        print(f"{'Effect '}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
+        print(f"{'Price  '}: {node.data.price}")
+        print(f"{'Qty    '}: {node.qty}")
 
         print("=" * len(header))
         print("[1] Prev Item")
@@ -110,8 +110,8 @@ def _show_all(player: Player):
         clear_screen()
         header = "=" * 12 + " INVENTORY " + "=" * 12
 
-        print(f"{'Name':<8}: {player.name}")
-        print(f"{'Balance':<8}: {player.money}")
+        print(f"{'Name    '}: {player.name}")
+        print(f"{'Balance '}: {player.money}")
         print(header)
 
         current = player.bag.head

@@ -1,16 +1,17 @@
 from .inventory import show_inventory
+from .skills import show_skills
 from .stats import show_stats
 
-from ..struct import Player
+from ..struct import Player, SkillTree
 from ..util import clear_screen
 
-def main_menu(player: Player):
+def main_menu(player: Player, skill_tree: SkillTree):
     while True:
         clear_screen()
         header = "=" * 12 + " MAIN MENU " + "=" * 12
 
-        print(f"{'Name':<8}: {player.name}")
-        print(f"{'Balance':<8}: {player.money}")
+        print(f"{'Name    '}: {player.name}")
+        print(f"{'Balance '}: {player.money}")
         print(header)
     
         print("Welcome adventurer!")
@@ -31,7 +32,7 @@ def main_menu(player: Player):
             case "2":
                 pass
             case "3":
-                pass
+                show_skills(player, skill_tree)
             case "4":
                 show_inventory(player)
             case _:
