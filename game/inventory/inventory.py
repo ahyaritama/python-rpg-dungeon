@@ -11,7 +11,7 @@ class Inventory:
     def __init__(self):
         self.head: InventoryItem = None
 
-    def search_by_name(self, name) -> tuple[Item, int]:
+    def search_by_name(self, name: str) -> tuple[Item, int]:
         current = self.head
 
         while current is not None:
@@ -20,7 +20,16 @@ class Inventory:
             current = current.next
 
         return None, 0
-    
+    def search_by_code(self, code: str) -> tuple[Item, int]:
+            current = self.head
+            
+            while current is not None:
+                if current.data.code == code:
+                    return current.data, current.qty
+                current = current.next
+                
+            return None, 0 
+
     def insert(self, data: Item, qty: int):
         if self.head is None:
             self.head = InventoryItem(data, qty)
@@ -60,3 +69,114 @@ class Inventory:
             current = current.next
 
         return False
+    
+    def sort_by_code(self, ascending: bool = True):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if ascending:
+                    condition = current.data.code > current.next.data.code
+                else:
+                    condition = current.data.code < current.next.data.code
+
+                if condition:
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                
+                current = current.next
+
+    def sort_by_name(self, ascending: bool = True):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if ascending:
+                    condition = current.data.name > current.next.data.name
+                else:
+                    condition = current.data.name < current.next.data.name
+
+                if condition:
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                
+                current = current.next
+
+    def sort_by_price(self, ascending: bool = True):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if ascending:
+                    condition = current.data.price > current.next.data.price
+                else:
+                    condition = current.data.price < current.next.data.price
+
+                if condition:
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                
+                current = current.next
+
+    def sort_by_code_descending(self):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if current.data.code < current.next.data.code:
+                    
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                current = current.next
+
+    def sort_by_name_descending(self):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if current.data.name < current.next.data.name:
+                    
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                current = current.next
+
+    def sort_by_price_descending(self):
+        if self.head is None:
+            return
+        
+        swapped = True
+        while swapped:
+            swapped = False
+            current = self.head
+            while current.next is not None:
+                if current.data.price < current.next.data.price:
+                    
+                    current.data, current.next.data = current.next.data, current.data
+                    current.qty, current.next.qty = current.next.qty, current.qty
+                    swapped = True
+                current = current.next
