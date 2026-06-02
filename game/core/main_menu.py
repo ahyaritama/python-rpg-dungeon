@@ -7,7 +7,7 @@ from ..util import clear_screen
 def main_menu(player: Player):
     while True:
         clear_screen()
-        header = "=" * 10 + " MAIN MENU " + "=" * 10
+        header = "=" * 12 + " MAIN MENU " + "=" * 12
 
         print(f"{'Name':<8}: {player.name}")
         print(f"{'Balance':<8}: {player.money}")
