@@ -1,4 +1,4 @@
-from ..inventory import Inventory
+from ..inventory import Equipment, Inventory
 from ..struct import Player
 from ..util import (
     add_player,
@@ -19,6 +19,10 @@ def register(players: dict[str, str]):
             break
         print(msg)
 
+    equipment = Equipment(set(), set())
+    bag = Inventory()
+    skill = None
     stats = add_player(username, password)
+
     print(f"Successfully create account {username}\n")
-    return Player(username, stats, None, Inventory())
+    return Player(username, stats, skill, bag, equipment)
