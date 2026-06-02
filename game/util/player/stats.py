@@ -13,6 +13,6 @@ def set_player_stats(player: Player):
     key = ("money", "health", "max_hp", "attack", "defence", "exp", "level")
     value = (player.money, *player.stats.values())
 
-    with open(f"game/storage/stats/{username}", "w") as f:
-        for i in range(key):
-            f.write(key[i] + "=" + value[i])
+    with open(f"game/storage/stats/{player.name}", "w") as f:
+        for i in range(len(key)):
+            f.write(f"{key[i]}={value[i]}\n")
