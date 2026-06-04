@@ -6,8 +6,6 @@ class Character:
         max_health: int,
         attack: int,
         defence: int,
-        exp: int,
-        level: int
     ):
         self.name = name
         self.stats = {
@@ -15,6 +13,4 @@ class Character:
             "Max HP": max_health,
             "ATK": attack,
             "DEF": defence,
-            "Exp": exp,
-            "Lvl": level
         }
