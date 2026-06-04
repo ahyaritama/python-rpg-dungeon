@@ -22,7 +22,7 @@ def register(players: dict[str, str]):
     equipment = Equipment(set(), set())
     bag = Inventory()
     skill: set[str] = set()
-    stats = add_player(username, password)
+    stats, rooms = add_player(username, password)
 
     print(f"Successfully create account {username}\n")
-    return Player(username, stats, skill, bag, equipment)
+    return Player(username, stats, skill, bag, equipment, rooms)
