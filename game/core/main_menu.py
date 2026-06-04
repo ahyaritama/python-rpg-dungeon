@@ -1,11 +1,16 @@
+from .battle import start_battle
 from .inventory import show_inventory
 from .skills import show_skills
 from .stats import show_stats
 
-from ..struct import Player, SkillTree
+from ..struct import (
+    Player,
+    SkillTree,
+    Map
+)
 from ..util import clear_screen
 
-def main_menu(player: Player, skill_tree: SkillTree):
+def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
     while True:
         clear_screen()
         header = "=" * 12 + " MAIN MENU " + "=" * 12
@@ -30,7 +35,7 @@ def main_menu(player: Player, skill_tree: SkillTree):
             case "1":
                 show_stats(player)
             case "2":
-                pass
+                start_battle(player)
             case "3":
                 show_skills(player, skill_tree)
             case "4":
