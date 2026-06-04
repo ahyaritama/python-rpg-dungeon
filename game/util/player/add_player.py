@@ -1,6 +1,6 @@
-from ...const import DEFAULT_STATS
+from ...const import DEFAULT_STATS, DEFAULT_POSITION
 
-def add_player(username: str, password: str) -> dict[str, int]:
+def add_player(username: str, password: str) -> tuple[dict[str, int], list[str, set[str]]]:
     with open("game/storage/auth", "a") as f:
         f.write(f"{username},{password}\n")
     
@@ -17,4 +17,7 @@ def add_player(username: str, password: str) -> dict[str, int]:
         for k, v in DEFAULT_STATS.items():
             f.write(f"{k}={v}\n")
     
-    return DEFAULT_STATS
+    with open(f"game/storage/rooms/{username}", "w") as f:
+        f.write("Main Gate\n")
+    
+    return DEFAULT_STATS, DEFAULT_POSITION
