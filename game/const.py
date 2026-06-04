@@ -7,3 +7,5 @@ DEFAULT_STATS = {
     "exp": 0,
     "level": 1
 }
+
+DEFAULT_POSITION: list[str, set[str]] = ["Main Gate", set()]
