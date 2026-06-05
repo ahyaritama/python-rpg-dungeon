@@ -73,7 +73,7 @@ class Player(Character):
         self.cleared = set()
         self.skill = set()
         self.stats = {
-            "HP": 0,
+            "HP": 100,
             "Max HP": 100,
             "ATK": 15,
             "DEF": 5,

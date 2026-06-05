@@ -21,6 +21,9 @@ class Monster(Character):
     
     def is_alive(self):
         return self.stats["HP"] > 0
+    
+    def reset(self):
+        self.stats["HP"] = self.stats["Max HP"]
 
 def init() -> list[Monster]:
     return [
