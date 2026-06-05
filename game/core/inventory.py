@@ -74,12 +74,14 @@ def _browse(player: Player, node: InventoryItem, ok=False):
                 ok = _browse(player, node.next, True)
             case "3":
                 ok, msg = player.equip(node.data)
+                set_player_stats(player)
                 print(msg)
-                if not ok:
+                input("[OK]")
+                if ok is False:
                     continue
                 
                 node.qty -= 1
-                if node.qty == 0:
+                if node.qty <= 0:
                     player.bag.delete(node.data)
                     set_player_items(player.name, player.bag)
                     return True
@@ -87,14 +89,16 @@ def _browse(player: Player, node: InventoryItem, ok=False):
                 continue
             case "4":
                 player.money += node.data.price
-                node.qty -= 1
                 set_player_stats(player)
                 print(f"Successfully sell {node.data.name}")
+                input("[OK]")
 
-                if node.qty == 0:
+                node.qty -= 1
+                if node.qty <= 0:
                     player.bag.delete(node.data)
                     set_player_items(player.name, player.bag)
                     return True
+                set_player_items(player.name, player.bag)
                 continue
             case "5":
                 return True
