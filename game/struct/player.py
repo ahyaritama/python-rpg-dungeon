@@ -40,7 +40,14 @@ class Player(Character):
 
 
     def equip(self, item: Item):
-        return self.equipment.equip(self.name, item)  
+        ok, msg = self.equipment.equip(self.name, item)
+        if ok is None:
+            self.stats["HP"] += item.effect
+            if self.stats["HP"] > self.stats["Max HP"]:
+                self.stats["HP"] = self.stats["Max HP"]
+            msg = f"{item.name} successfully consume (HP +{item.effect})"
+        return ok, msg
+
 
     def learn_skill(self):
         pass
