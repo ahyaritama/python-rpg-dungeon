@@ -7,7 +7,7 @@ from ..struct import (
     Player,
     Room,
     Skill,
-    Map
+    Map,
 )
 
 def explore(player: Player, skills: list[Skill], dungeon_map: Map):
@@ -49,13 +49,18 @@ def explore(player: Player, skills: list[Skill], dungeon_map: Map):
         if not player.is_room_cleared(player.position):
             print("[1] View Stats")
             print("[2] Fight")
+
+            if not player.moves.is_empty():
+                print("[3] Back")
+                options["3"] = lambda: player.set_position(player.moves.pop())
+
             options["1"] = lambda: show_stats(player)
             options["2"] = lambda: start_battle(player, monster, skills)
         else:
             rooms = dungeon_map.graph[player.position][1]
             for i in range(len(rooms)):
                 print(f"[{i + 1}] {rooms[i].name}")
-                options[str(i + 1)] = lambda c=i: player.set_position(rooms[c].name)
+                options[str(i + 1)] = lambda c=i: _set_player_position(player, rooms[c].name)
 
         print("[*] Main Menu")
         choice = input("Your Choice: ")
@@ -88,4 +93,8 @@ def _clear_room(player: Player, room: Room):
         input("[OK]")
 
     player.clear_room(room.name)
-    set_player_rooms(player.name, player.position, player.cleared)
+    set_player_rooms(player.name, player.position, player.moves.stack, player.cleared)
+
+def _set_player_position(player: Player, room_name: str):
+    player.moves.push(player.position)
+    player.set_position(room_name)
