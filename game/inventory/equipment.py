@@ -30,3 +30,4 @@ class Equipment:
         for item in self.equipment:
             if "DEF" in item.code:
                 total += item.effect
+        return total
