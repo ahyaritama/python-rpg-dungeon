@@ -71,7 +71,7 @@ class Player(Character):
         self.equipment = Equipment(set(), set())
         self.position = "Main Gate"
         self.cleared = set()
-        self.skill = set()
+        self.skills = set()
         self.stats = {
             "HP": 100,
             "Max HP": 100,
