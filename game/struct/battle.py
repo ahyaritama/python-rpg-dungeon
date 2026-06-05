@@ -11,6 +11,7 @@ class Battle:
     def __init__(self):
         self.head: BattleNode = None
         self.total_char = 0
+        self.cooldown: int = 0
     
     def add_character(self, character: Player | Monster):
         new_node = BattleNode(character)

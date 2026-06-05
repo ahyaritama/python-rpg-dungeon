@@ -34,6 +34,7 @@ class Player(Character):
             self.exp -= 100
             self.level += 1
             self.stats["Max HP"] += 20
+            self.stats["HP"] = self.stats["Max HP"]
             self.stats["ATK"] += 3
             self.stats["DEF"] += 2
 
