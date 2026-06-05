@@ -88,5 +88,4 @@ def _clear_room(player: Player, room: Room):
         input("[OK]")
 
     player.clear_room(room.name)
-    print(player.cleared)
     set_player_rooms(player.name, player.position, player.cleared)

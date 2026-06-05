@@ -36,6 +36,7 @@ def start_battle(player: Player, monster: Monster) -> bool:
         input("[OK]")
         current_turn = current_turn.next
 
+    monster.reset()
     return result
 
 
