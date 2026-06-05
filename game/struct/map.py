@@ -9,23 +9,20 @@ class Room:
         self.items = items
 
 class Map:
-    def __init__(self, start: Room):
-        self.start = start
-        self.graph: dict[str, list[Room]] = {
-            start.name: []
-        }
+    def __init__(self):
+        self.graph: dict[str, list[Room, list[Room]]] = {}
     
-    def add_room(self, room_name: str):
-        if room_name not in self.graph:
-            self.graph[room_name] = []
+    def add_room(self, room: Room):
+        if room.name not in self.graph:
+            self.graph[room.name] = [room]
 
     def connect_room(self, x: Room, y: list[Room]):
-        self.add_room(x.name)
-        self.graph[x.name].extend(y)
+        self.add_room(x)
+        self.graph[x.name].append(y)
     
     def display_room(self):
         for k, v in self.graph.items():
-            connected_room = ", ".join(room.name for room in v)
+            connected_room = ", ".join(room.name for room in v[1])
             print(f"- {k} connected to:", connected_room)
 
 
@@ -45,7 +42,7 @@ def init(monster: list[Monster], items: dict[str, Item]):
     throne_room = Room("Throne Room", monster[10], [items["HP_02"], items["ATK_01"], items["DEF_02"]])
     treasure_room = Room("Treasure Room", monster[11], [items["HP_02"], items["ATK_03"], items["DEF_01"]])
 
-    dungeon_map = Map(main_gate)
+    dungeon_map = Map()
     dungeon_map.connect_room(main_gate, [west_hallway, central_hall, east_hallway])
     dungeon_map.connect_room(west_hallway, [main_gate, armory])
     dungeon_map.connect_room(central_hall, [main_gate, guard_room, library, laboratory])
