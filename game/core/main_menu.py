@@ -1,4 +1,4 @@
-from .battle import start_battle
+from.explore import explore
 from .inventory import show_inventory
 from .skills import show_skills
 from .stats import show_stats
@@ -35,7 +35,7 @@ def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
             case "1":
                 show_stats(player)
             case "2":
-                start_battle(player)
+                explore(player, skill_tree, dungeon_map)
             case "3":
                 show_skills(player, skill_tree)
             case "4":
