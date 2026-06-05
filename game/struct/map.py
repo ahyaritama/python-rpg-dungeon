@@ -2,6 +2,21 @@ from .monster import Monster
 
 from ..inventory import Item
 
+class MoveStack:
+    def __init__(self, stack: list[str]):
+        self.stack = stack
+    
+    def push(self, room_name: str):
+        self.stack.append(room_name)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        return None
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
 class Room:
     def __init__(self, name: str, monster: Monster, items: list[Item]):
         self.name = name

@@ -1,4 +1,5 @@
 from .character import Character
+from .map import MoveStack
 
 from ..inventory import (
     Equipment,
@@ -15,14 +16,15 @@ class Player(Character):
         skills: set[str],
         bag: Inventory,
         equipment: Equipment,
-        room: list[str, set[str]]
+        room: list[str, set[str]],
     ):
         self.money, *stats, self.exp, self.level = stats.values()
         self.skills = skills
         self.bag = bag
         self.equipment = equipment
         self.position = room[0]
-        self.cleared = room[1]
+        self.moves = MoveStack(room[1])
+        self.cleared = room[2]
 
         super().__init__(name, *stats)
 
@@ -30,7 +32,13 @@ class Player(Character):
         return self.stats["HP"] > 0
 
     def check_level_up(self):
-        if self.exp > 100:
+        if self.exp >= 100:
+            print("\nYour level has increased!")
+            print(f"Level  : {self.level} -> {self.level + 1}")
+            print(f"Max HP : {self.stats["Max HP"]} -> {self.stats["Max HP"] + 20}")
+            print(f"ATK    : {self.stats["ATK"]} -> {self.stats["ATK"] + 3}")
+            print(f"DEF    : {self.stats["DEF"]} -> {self.stats["DEF"] + 2}")
+
             self.exp -= 100
             self.level += 1
             self.stats["Max HP"] += 20
@@ -38,6 +46,7 @@ class Player(Character):
             self.stats["ATK"] += 3
             self.stats["DEF"] += 2
 
+            self.check_level_up()
 
     def equip(self, item: Item):
         ok, msg = self.equipment.equip(self.name, item)
@@ -47,10 +56,6 @@ class Player(Character):
                 self.stats["HP"] = self.stats["Max HP"]
             msg = f"{item.name} successfully consume (HP +{item.effect})"
         return ok, msg
-
-
-    def learn_skill(self):
-        pass
 
     def is_room_cleared(self, room_name: str) -> bool:
         return room_name in self.cleared
@@ -78,6 +83,7 @@ class Player(Character):
         self.bag = Inventory()
         self.equipment = Equipment(set(), set())
         self.position = "Main Gate"
+        self.moves = MoveStack([])
         self.cleared = set()
         self.skills = set()
         self.stats = {
@@ -89,7 +95,7 @@ class Player(Character):
 
         set_player_equipment(self.name, set())
         set_player_items(self.name, self.bag)
-        set_player_rooms(self.name, self.position, self.cleared)
+        set_player_rooms(self.name, self.position, self.moves.stack, self.cleared)
         set_player_skills(self.name, set())
         set_player_stats(self)
 
