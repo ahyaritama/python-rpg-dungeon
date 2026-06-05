@@ -1,7 +1,7 @@
-from ..struct import Battle, Monster, Player, Room
+from ..struct import Battle, Monster, Player, Room, Skill
 from ..util import clear_screen, set_player_stats
 
-def start_battle(player: Player, monster: Monster) -> bool:
+def start_battle(player: Player, monster: Monster, skills: list[Skill]) -> bool:
     battle = Battle()
     battle.add_character(player)
     battle.add_character(monster)
@@ -13,21 +13,27 @@ def start_battle(player: Player, monster: Monster) -> bool:
         clear_screen()
         header = "=" * 12 + " BATTLE " + "=" * 12
         print(header)
-
         _show_stats(player, monster)
-
         print("=" * len(header))
 
         if current_turn.character == player:
+            if battle.cooldown > 0:
+                battle.cooldown -= 1
+
+            print("[1] Use Skill")
             print("[*] Attack")
             choice = input("Your Choice: ")
 
+            is_dead = False
             match choice:
+                case "1":
+                    is_dead = _use_skill(player, monster, skills, battle)
                 case _:
                     is_dead = _player_attack_action(player, monster)
-                    if is_dead:
-                        battle.remove_character(monster)
-                        result = True
+
+            if is_dead:
+                battle.remove_character(monster)
+                result = True
         else:
             is_dead = _monster_attack_action(monster, player)
             if is_dead:
@@ -44,6 +50,75 @@ def start_battle(player: Player, monster: Monster) -> bool:
 
 
 # PRIVATE FUNCTION
+def _use_skill(player: Player, monster: Monster, skills: list[Skill], battle: Battle) -> bool:
+    if battle.cooldown > 0:
+        print(f"You cannot use skills in {battle.cooldown} rounds.")
+        return _player_attack_action(player, monster)
+
+    while True:
+        clear_screen()
+        header = "=" * 12 + " BATTLE " + "=" * 12
+        print(header)
+
+        _show_stats(player, monster)
+
+        print("=" * len(header))
+
+        player_skills = list(player.skills)
+        for i, skill in enumerate(player_skills, 1):
+            print(f"[{i}] {skill}")
+        
+        print("[*] Cancel")
+        choice = input("Your Choice: ")
+        try:
+            selected_skill = player_skills[int(choice) - 1]
+        except (ValueError, KeyError):
+            return _player_attack_action(player, monster)
+
+        skill = [x for x in skills if x.name == selected_skill][0]
+        bonus = 0
+        match selected_skill:
+            case "Evil Eye":
+                attack = player.stats["ATK"] + player.equipment.get_total_attack()
+                damage = max(0, attack - monster.stats["DEF"])
+                player.stats["HP"] += damage
+
+                print(f"Using {skill.name} buff:")
+                print(f"    - {skill.type} +{skill.effect}% of damage")
+            case "Baraju Spinner":
+                if player.stats["HP"] <= 15:
+                    print("Not have enough HP.")
+                    input("[OK]")
+                    continue
+
+                player.stats["HP"] -= 15
+                bonus += skill.effect
+
+                print(f"Using {skill.name} buff:")
+                print(f"    - {skill.type} +{skill.effect}")
+                print("    - HP -15")
+            case "Raven Chaser":
+                lost_hp = player.stats["Max HP"] - player.stats["HP"]
+                player.stats["HP"] += lost_hp * (skill.effect / 100)
+                if player.stats["HP"] > player.stats["Max HP"]:
+                    player.stats["HP"] = player.stats["Max HP"]
+                
+                print(f"Using {skill.name} buff:")
+                print(f"    - {skill.type} +{skill.effect}% of lost HP")
+            case _:
+                if skill.type == "ATK":
+                    bonus += skill.effect
+                else:
+                    player.stats["HP"] += skill.effect
+                    if player.stats["HP"] > player.stats["Max HP"]:
+                        player.stats["HP"] = player.stats["Max HP"]
+
+                print(f"Using {skill.name} buff:")
+                print(f"    - {skill.type} +{skill.effect}")
+
+        battle.cooldown = 4
+        return _player_attack_action(player, monster, bonus)
+
 def _monster_attack_action(monster: Monster, player: Player):
     defence = player.stats["DEF"] + player.equipment.get_total_defence()
     damage = max(0, monster.stats["ATK"] - defence)
@@ -77,7 +152,6 @@ def _player_attack_action(player: Player, monster: Monster, bonus: int = 0):
         return True
     
     return False
-
 
 def _show_stats(player: Player, monster: Monster):
     print(f"Name   : {player.name}")

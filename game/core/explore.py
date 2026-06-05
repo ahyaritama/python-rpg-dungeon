@@ -6,11 +6,11 @@ from ..util import clear_screen, set_player_items, set_player_rooms
 from ..struct import (
     Player,
     Room,
-    SkillTree,
+    Skill,
     Map
 )
 
-def explore(player: Player, skill_tree: SkillTree, dungeon_map: Map):
+def explore(player: Player, skills: list[Skill], dungeon_map: Map):
     while True:
         clear_screen()
         header = "=" * 12 + " EXPLORE " + "=" * 12
@@ -50,7 +50,7 @@ def explore(player: Player, skill_tree: SkillTree, dungeon_map: Map):
             print("[1] View Stats")
             print("[2] Fight")
             options["1"] = lambda: show_stats(player)
-            options["2"] = lambda: start_battle(player, monster)
+            options["2"] = lambda: start_battle(player, monster, skills)
         else:
             rooms = dungeon_map.graph[player.position][1]
             for i in range(len(rooms)):

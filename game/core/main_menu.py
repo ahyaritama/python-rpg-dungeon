@@ -35,7 +35,7 @@ def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
             case "1":
                 show_stats(player)
             case "2":
-                explore(player, skill_tree, dungeon_map)
+                explore(player, skill_tree.in_order(), dungeon_map)
             case "3":
                 show_skills(player, skill_tree)
             case "4":
