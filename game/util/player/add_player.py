@@ -1,3 +1,6 @@
+from .stats import get_player_stats
+from .rooms import get_player_rooms
+
 from ...const import DEFAULT_STATS, DEFAULT_POSITION
 
 def add_player(username: str, password: str) -> tuple[dict[str, int], list[str, set[str]]]:
@@ -18,6 +21,6 @@ def add_player(username: str, password: str) -> tuple[dict[str, int], list[str, 
             f.write(f"{k}={v}\n")
     
     with open(f"game/storage/rooms/{username}", "w") as f:
-        f.write("Main Gate\n")
+        f.write("Main Gate\n\n")
     
-    return DEFAULT_STATS, DEFAULT_POSITION
+    return get_player_stats(username), get_player_rooms(username)
