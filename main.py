@@ -1,13 +1,14 @@
-from game import auth, core, util, skill, struct
+from game import auth, core, util, struct
 from game.inventory import item
 from game.struct.map import init as map_init
+from game.struct.skill import build_skill
 
 def main():
     players = auth.load()
     monster = struct.monster.init()
     items = item.init()
     dungeon_map = map_init(monster, items)
-    skill_tree = skill.build_skill()
+    skill_tree = build_skill()
 
     while True:
         util.clear_screen()
