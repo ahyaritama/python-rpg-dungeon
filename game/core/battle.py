@@ -82,6 +82,8 @@ def _use_skill(player: Player, monster: Monster, skills: list[Skill], battle: Ba
                 attack = player.stats["ATK"] + player.equipment.get_total_attack()
                 damage = max(0, attack - monster.stats["DEF"])
                 player.stats["HP"] += damage
+                if player.stats["HP"] > player.stats["Max HP"]:
+                    player.stats["HP"] = player.stats["Max HP"]
 
                 print(f"Using {skill.name} buff:")
                 print(f"    - {skill.type} +{skill.effect}% of damage")
@@ -142,13 +144,14 @@ def _player_attack_action(player: Player, monster: Monster, bonus: int = 0):
 
     if not monster.is_alive():
         player.exp += monster.exp_drop
-        player.check_level_up()
         player.money += monster.coin_drop
-        set_player_stats(player)
 
         print("\nYou successfully defeated")
         print(f"{monster.name}. You received")
         print(f"{monster.exp_drop} exp and {monster.coin_drop} coins.")
+
+        player.check_level_up()
+        set_player_stats(player)
         return True
     
     return False
