@@ -11,7 +11,7 @@ def get_player_stats(username: str) -> dict[str, int]:
 
 def set_player_stats(player: Player):
     key = ("money", "health", "max_hp", "attack", "defence", "exp", "level")
-    value = (player.money, *player.stats.values())
+    value = (player.money, *player.stats.values(), player.exp, player.level)
 
     with open(f"game/storage/stats/{player.name}", "w") as f:
         for i in range(len(key)):
