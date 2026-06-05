@@ -9,7 +9,7 @@ class Equipment:
         if item.code in self.equipped:
             return False, "You have been equipped with this item\n"
         elif "HP" in item.code:
-            return False, "HP item cannot equipped\n"
+            return None, ""
 
         self.equipped.add(item.code)
         self.equipment.add(item)
