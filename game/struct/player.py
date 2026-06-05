@@ -70,7 +70,7 @@ class Player(Character):
         self.bag = Inventory()
         self.equipment = Equipment(set(), set())
         self.position = "Main Gate"
-        self.cleared = []
+        self.cleared = set()
         self.skill = set()
         self.stats = {
             "HP": 0,
