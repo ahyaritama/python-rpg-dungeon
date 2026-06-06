@@ -45,7 +45,8 @@ def explore(player: Player, skills: list[Skill], dungeon_map: Map):
                 
         print("=" * len(header))
 
-        options: dict[str, str] = {}
+        print("[0] Show Rooms")
+        options: dict[str, str] = {"0": lambda: _show_room(player, dungeon_map)}
         if not player.is_room_cleared(player.position):
             print("[1] View Stats")
             print("[2] Fight")
@@ -98,3 +99,16 @@ def _clear_room(player: Player, room: Room):
 def _set_player_position(player: Player, room_name: str):
     player.moves.push(player.position)
     player.set_position(room_name)
+
+def _show_room(player: Player, dungeon_map: Map):
+    clear_screen()
+    header = "=" * 12 + " EXPLORE " + "=" * 12
+
+    print(f"{'Name    '}: {player.name}")
+    print(f"{'Balance '}: {player.money}")
+    print(header)
+
+    dungeon_map.display_room()
+
+    print("=" * len(header)) 
+    input("[Back]")

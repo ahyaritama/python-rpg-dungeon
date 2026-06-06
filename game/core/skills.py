@@ -53,6 +53,8 @@ def _select_skill(player: Player, skill_tree: SkillTree):
             _learn_skill(player, skill_tree.root, choice)
         else:
             input("[Back]")
+            break
+
     
     
 def _learn_skill(player: Player, skill_node: SkillNode, skill_id: int):
@@ -100,7 +102,6 @@ def _show_locked_skill(player: Player, skill_tree: SkillTree) -> bool:
 
     if len(player.skills) == len(skill_list):
         print("You have unlocked all skills")
-        input("[OK]")
         return
 
     print("-" * 32)

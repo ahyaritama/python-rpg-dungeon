@@ -81,12 +81,13 @@ def _use_skill(player: Player, monster: Monster, skills: list[Skill], battle: Ba
             case "Evil Eye":
                 attack = player.stats["ATK"] + player.equipment.get_total_attack()
                 damage = max(0, attack - monster.stats["DEF"])
-                player.stats["HP"] += damage
+                bonus_hp = damage * skill.effect / 100
+                player.stats["HP"] += int(damage)
                 if player.stats["HP"] > player.stats["Max HP"]:
                     player.stats["HP"] = player.stats["Max HP"]
 
                 print(f"Using {skill.name} buff:")
-                print(f"    - {skill.type} +{skill.effect}% of damage")
+                print(f"    - {skill.type} +{skill.effect}% of damage (+{bonus_hp} HP)")
             case "Baraju Spinner":
                 if player.stats["HP"] <= 15:
                     print("Not have enough HP.")
@@ -101,12 +102,13 @@ def _use_skill(player: Player, monster: Monster, skills: list[Skill], battle: Ba
                 print("    - HP -15")
             case "Raven Chaser":
                 lost_hp = player.stats["Max HP"] - player.stats["HP"]
-                player.stats["HP"] += lost_hp * (skill.effect / 100)
+                bonus_hp = lost_hp * skill.effect / 100
+                player.stats["HP"] += int(bonus_hp)
                 if player.stats["HP"] > player.stats["Max HP"]:
                     player.stats["HP"] = player.stats["Max HP"]
                 
                 print(f"Using {skill.name} buff:")
-                print(f"    - {skill.type} +{skill.effect}% of lost HP")
+                print(f"    - {skill.type} +{skill.effect}% of lost HP (+{bonus_hp} HP)")
             case _:
                 if skill.type == "ATK":
                     bonus += skill.effect
