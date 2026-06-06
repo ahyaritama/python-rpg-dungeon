@@ -9,15 +9,18 @@ from ..util import (
 )
 
 def login(players: dict[str, str], items: dict[str, Item]):
-    username = input("Input your username: ")
-    password = input("Input your password: ")
+    print("\n(Use CTRL + C to quit)")
+    while True:
+        try:
+            username = input("Input your username: ")
+            password = input("Input your password: ")
 
-    if (
-        not username in players
-        or players[username] != password
-    ):
-        print("Invalid username or password submited\n")
-        return
+            if (username in players and players[username] == password):
+                break
+            
+            print("Invalid username or password submited\n")
+        except KeyboardInterrupt:
+            return
 
     equipment = get_player_equipment(username, items)
     p_items = get_player_items(username, items)
