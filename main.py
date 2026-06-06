@@ -29,7 +29,7 @@ def main():
                 print("\nThank you for playing our game!")
                 break
         
-        core.main_menu(player, skill_tree, dungeon_map)
+        core.main_menu(player, items, skill_tree, dungeon_map)
     
 
 if __name__ == "__main__":
