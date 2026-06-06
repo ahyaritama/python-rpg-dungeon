@@ -1,5 +1,6 @@
 from.explore import explore
 from .inventory import Item, show_inventory
+from .reset import reset_progress
 from .shop import show_shop
 from .skills import show_skills
 from .stats import show_stats
@@ -30,6 +31,7 @@ def main_menu(player: Player, items: dict[str, Item], skill_tree: SkillTree, dun
         print("[3] Skills")
         print("[4] Inventory")
         print("[5] Shop")
+        print("[6] Reset Progress")
         print("[*] Logout")
 
         choice = input("Your Choice: ")
@@ -44,6 +46,8 @@ def main_menu(player: Player, items: dict[str, Item], skill_tree: SkillTree, dun
                 show_inventory(player)
             case "5":
                 show_shop(player, items)
+            case "6":
+                reset_progress(player)
             case _:
                 print("Logging Out...\n")
                 break
