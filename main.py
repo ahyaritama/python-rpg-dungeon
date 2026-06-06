@@ -25,6 +25,9 @@ def main():
                     continue
             case "2":
                 player = auth.register(players)
+                if not player:
+                    util.clear_screen()
+                    continue
             case _:
                 print("\nThank you for playing our game!")
                 break
