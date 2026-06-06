@@ -1,5 +1,6 @@
 from.explore import explore
-from .inventory import show_inventory
+from .inventory import Item, show_inventory
+from .shop import show_shop
 from .skills import show_skills
 from .stats import show_stats
 
@@ -10,7 +11,7 @@ from ..struct import (
 )
 from ..util import clear_screen
 
-def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
+def main_menu(player: Player, items: dict[str, Item], skill_tree: SkillTree, dungeon_map: Map):
     while True:
         clear_screen()
         header = "=" * 12 + " MAIN MENU " + "=" * 12
@@ -28,6 +29,7 @@ def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
         print("[2] Explore")
         print("[3] Skills")
         print("[4] Inventory")
+        print("[5] Shop")
         print("[*] Logout")
 
         choice = input("Your Choice: ")
@@ -40,6 +42,8 @@ def main_menu(player: Player, skill_tree: SkillTree, dungeon_map: Map):
                 show_skills(player, skill_tree)
             case "4":
                 show_inventory(player)
+            case "5":
+                show_shop(player, items)
             case _:
                 print("Logging Out...\n")
                 break
