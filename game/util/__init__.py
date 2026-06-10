@@ -1,5 +1,4 @@
 from .auth import validate
-from .sorting import bubble_sort_ascending, bubble_sort_descending
 from .view import clear_screen, create_header
 
 from .player import (
