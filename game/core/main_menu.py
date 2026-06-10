@@ -10,22 +10,18 @@ from ..struct import (
     SkillTree,
     Map
 )
-from ..util import clear_screen
+from ..util import clear_screen, create_header
 
 def main_menu(player: Player, items: dict[str, Item], skill_tree: SkillTree, dungeon_map: Map):
     while True:
         clear_screen()
-        header = "=" * 12 + " MAIN MENU " + "=" * 12
-
-        print(f"{'Name    '}: {player.name}")
-        print(f"{'Balance '}: {player.money}")
-        print(header)
+        header_len = create_header(player.name, player.money, "MAIN MENU")
     
         print("Welcome adventurer!")
         print("Here you can choose anything")
         print("from the available menus.")
 
-        print("=" * len(header))
+        print("=" * header_len)
         print("[1] View Stats")
         print("[2] Explore")
         print("[3] Skills")

@@ -14,3 +14,11 @@ class Character:
             "ATK": attack,
             "DEF": defence,
         }
+    
+    def reset_stats(self):
+        self.stats = {
+            "HP": 100,
+            "Max HP": 100,
+            "ATK": 15,
+            "DEF": 5,
+        }

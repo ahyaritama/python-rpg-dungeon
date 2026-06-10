@@ -1,73 +1,158 @@
-from ..inventory import Item
-from ..struct import Player, ShopStack
-from ..util import clear_screen, set_player_items, set_player_stats
+# from ..inventory import Item
+# from ..struct import Player, ShopStack
+# from ..util import clear_screen, set_player_items, set_player_stats
 
-def show_shop(player: Player, items: dict[str, Item]):
-    shop_stack = ShopStack()
 
+from ..struct import Player, ShopQueue
+from ..struct.item import ItemDict
+from ..util import (
+    create_header,
+    set_player_items,
+    set_player_stats
+)
+
+def show_shop(player: Player, item_dict: ItemDict):
+    shop_queue = ShopQueue()
     while True:
-        clear_screen()
-        header = "=" * 12 + " SHOP " + "=" * 12
-
-        print(f"{'Name    '}: {player.name}")
-        print(f"{'Balance '}: {player.money}")
-        print(header)
-
+        header_len = create_header(player.name, player.money, "SHOP")
         print("Here you can purchase items.")
         print("Select an item to add to your")
         print("cart.\n")
-
-        codes: dict[str, str] = {}
-        for i, item in enumerate(items.values(), 1):
-            codes[str(i)] = item.code
+        item_codes: dict[str, str] = {}
+        for i, item in enumerate(item_dict.values(), 1):
+            item_codes[str(i)] = item.code
             print(f"{f'[{i}]':<4} {item.name:<14} ({item.price:<3} Gold)")
-
-        print("=" * len(header))
-        print("[0] Pay")
+        print("=" * header_len)
+        print("[0] View Cart")
         print("[*] Back")
-
         choice = input("Your Choice: ")
         match choice:
             case "0":
-                _pay(player, shop_stack)
+                _view_cart(player, shop_queue)
             case _:
                 try:
-                    selected_item = items[codes[choice]]
-                    print("\n" + shop_stack.enqueue(selected_item))
+                    selected_item = item_dict[item_codes[choice]]
+                    print("\n" + shop_queue.enqueue(selected_item))
                     input("[OK]")
                 except KeyError:
                     break
 
 
 # PRIVATE FUNCTION
-def _pay(player: Player, stack: ShopStack):
-    clear_screen()
-    header = "=" * 12 + " SHOP " + "=" * 12
+def _pay(player: Player, queue: ShopQueue):
+    header_len = create_header(player.name, player.money, "SHOP")
 
-    print(f"{'Name    '}: {player.name}")
-    print(f"{'Balance '}: {player.money}")
-    print(header)
-
-    if stack.is_empty():
+    if queue.is_empty():
         print("Nothing to pay")
-        print("=" * len(header))
+        print("=" * header_len)
         input("[OK]")
         return
 
     while True:
-        item = stack.dequeue()
+        item = queue.dequeue()
         if item is None:
             break
-
         if item.price > player.money:
             print(f"Not enough money to buy {item.name}.")
             break
 
-        player.bag.insert(item, 1)
+        player.inventory.insert(item, 1)
         player.money -= item.price
-        set_player_items(player.name, player.bag)
-        set_player_stats(player)
+        set_player_items(player.name, player.get_items())
+        set_player_stats(player.name, player.get_stats())
         print(f"Buying {item.name:<14} -{item.price}")
-    
-    print("=" * len(header))
+    print("=" * header_len)
     input("[OK]")
+
+
+def _view_cart(player: Player, queue: ShopQueue):
+    header_len = create_header(player.name, player.money, "SHOP")
+    if queue.is_empty():
+        print("Your cart is empty.")
+        print("=" * header_len)
+        input("[Back]")
+        return
+
+    for item in queue.list:
+        print(f"{item.name:<14} ({item.price:<3} Gold)")
+    print("=" * header_len)
+    print("[0] Pay")
+    print("[*] Back")
+    choice = input("Your Choice: ")
+    match choice:
+        case "0":
+            _pay(player, queue)
+        case _:
+            pass
+
+
+
+# def show_shop(player: Player, items: dict[str, Item]):
+#     shop_stack = ShopStack()
+
+#     while True:
+#         clear_screen()
+#         header = "=" * 12 + " SHOP " + "=" * 12
+
+#         print(f"{'Name    '}: {player.name}")
+#         print(f"{'Balance '}: {player.money}")
+#         print(header)
+
+#         print("Here you can purchase items.")
+#         print("Select an item to add to your")
+#         print("cart.\n")
+
+#         codes: dict[str, str] = {}
+#         for i, item in enumerate(items.values(), 1):
+#             codes[str(i)] = item.code
+#             print(f"{f'[{i}]':<4} {item.name:<14} ({item.price:<3} Gold)")
+
+#         print("=" * len(header))
+#         print("[0] Pay")
+#         print("[*] Back")
+
+#         choice = input("Your Choice: ")
+#         match choice:
+#             case "0":
+#                 _pay(player, shop_stack)
+#             case _:
+#                 try:
+#                     selected_item = items[codes[choice]]
+#                     print("\n" + shop_stack.enqueue(selected_item))
+#                     input("[OK]")
+#                 except KeyError:
+#                     break
+
+
+# # PRIVATE FUNCTION
+# def _pay(player: Player, stack: ShopStack):
+#     clear_screen()
+#     header = "=" * 12 + " SHOP " + "=" * 12
+
+#     print(f"{'Name    '}: {player.name}")
+#     print(f"{'Balance '}: {player.money}")
+#     print(header)
+
+#     if stack.is_empty():
+#         print("Nothing to pay")
+#         print("=" * len(header))
+#         input("[OK]")
+#         return
+
+#     while True:
+#         item = stack.dequeue()
+#         if item is None:
+#             break
+
+#         if item.price > player.money:
+#             print(f"Not enough money to buy {item.name}.")
+#             break
+
+#         player.bag.insert(item, 1)
+#         player.money -= item.price
+#         set_player_items(player.name, player.bag)
+#         set_player_stats(player)
+#         print(f"Buying {item.name:<14} -{item.price}")
+    
+#     print("=" * len(header))
+#     input("[OK]")

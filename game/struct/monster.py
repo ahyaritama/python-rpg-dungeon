@@ -1,5 +1,7 @@
 from .character import Character
 
+type MonsterList = list[Monster]
+
 class Monster(Character):
     def __init__(
         self,
