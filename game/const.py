@@ -8,4 +8,4 @@ DEFAULT_STATS = {
     "level": 1
 }
 
-DEFAULT_POSITION: list[str, set[str]] = ["Main Gate", set()]
+DEFAULT_POSITION: str = "Main Gate"

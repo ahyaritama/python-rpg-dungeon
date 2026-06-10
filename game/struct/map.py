@@ -1,39 +1,38 @@
+from .item import ItemDict, ItemList
 from .monster import Monster
-
-from ..inventory import Item
 
 class MoveStack:
     def __init__(self, stack: list[str]):
-        self.stack = stack
-    
+        self.stack = []
+
     def push(self, room_name: str):
         self.stack.append(room_name)
 
-    def pop(self):
+    def pop(self) -> str | None:
         if not self.is_empty():
             return self.stack.pop()
         return None
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return len(self.stack) == 0
 
 class Room:
-    def __init__(self, name: str, monster: Monster, items: list[Item]):
+    def __init__(self, name: str, monster: Monster, item_list: ItemList):
         self.name = name
         self.monster = monster
-        self.items = items
+        self.item_list = item_list
 
 class Map:
     def __init__(self):
-        self.graph: dict[str, list[Room, list[Room]]] = {}
+        self.graph: dict[str, tuple[Room, list[Room]]] = {}
     
     def add_room(self, room: Room):
         if room.name not in self.graph:
-            self.graph[room.name] = [room]
+            self.graph[room.name] = (room, [])
 
     def connect_room(self, x: Room, y: list[Room]):
         self.add_room(x)
-        self.graph[x.name].append(y)
+        self.graph[x.name][1].extend(y)
     
     def display_room(self):
         for k, v in self.graph.items():
@@ -41,21 +40,60 @@ class Map:
             print(f"- {k} connected to:", connected_room)
 
 
+# class MoveStack:
+#     def __init__(self, stack: list[str]):
+#         self.stack = stack
+    
+#     def push(self, room_name: str):
+#         self.stack.append(room_name)
+
+#     def pop(self):
+#         if not self.is_empty():
+#             return self.stack.pop()
+#         return None
+
+#     def is_empty(self):
+#         return len(self.stack) == 0
+
+# class Room:
+#     def __init__(self, name: str, monster: Monster, items: list[Item]):
+#         self.name = name
+#         self.monster = monster
+#         self.items = items
+
+# class Map:
+#     def __init__(self):
+#         self.graph: dict[str, list[Room, list[Room]]] = {}
+    
+#     def add_room(self, room: Room):
+#         if room.name not in self.graph:
+#             self.graph[room.name] = [room]
+
+#     def connect_room(self, x: Room, y: list[Room]):
+#         self.add_room(x)
+#         self.graph[x.name].append(y)
+    
+#     def display_room(self):
+#         for k, v in self.graph.items():
+#             connected_room = ", ".join(room.name for room in v[1])
+#             print(f"- {k} connected to:", connected_room)
 
 
-def init(monster: list[Monster], items: dict[str, Item]):
+
+
+def init(monster: list[Monster], item_dict: ItemDict):
     main_gate = Room("Main Gate", monster[0], [])
-    west_hallway = Room("West Hallway", monster[1], [items["DEF_02"]])
-    central_hall = Room("Central Hall", monster[2], [items["HP_02"]])
-    east_hallway = Room("East Hallway", monster[3], [items["HP_03"], items["ATK_02"]])
-    armory = Room("Armory", monster[4], [items["DEF_02"], items["ATK_02"], items["HP_01"]])
-    guard_room = Room("Guard Room", monster[5],[items["ATK_01"], items["HP_02"]])
-    library = Room("Library", monster[6], [items["HP_01"], items["DEF_03"]])
-    laboratory = Room("Laboratory", monster[7], [items["HP_02"]])
+    west_hallway = Room("West Hallway", monster[1], [item_dict["DEF_02"]])
+    central_hall = Room("Central Hall", monster[2], [item_dict["HP_02"]])
+    east_hallway = Room("East Hallway", monster[3], [item_dict["HP_03"], item_dict["ATK_02"]])
+    armory = Room("Armory", monster[4], [item_dict["DEF_02"], item_dict["ATK_02"], item_dict["HP_01"]])
+    guard_room = Room("Guard Room", monster[5],[item_dict["ATK_01"], item_dict["HP_02"]])
+    library = Room("Library", monster[6], [item_dict["HP_01"], item_dict["DEF_03"]])
+    laboratory = Room("Laboratory", monster[7], [item_dict["HP_02"]])
     basement = Room("Basement", monster[8], [])
     trap_room = Room("Trap Room", monster[9], [])
-    throne_room = Room("Throne Room", monster[10], [items["HP_02"], items["ATK_01"], items["DEF_02"]])
-    treasure_room = Room("Treasure Room", monster[11], [items["HP_02"], items["ATK_03"], items["DEF_01"]])
+    throne_room = Room("Throne Room", monster[10], [item_dict["HP_02"], item_dict["ATK_01"], item_dict["DEF_02"]])
+    treasure_room = Room("Treasure Room", monster[11], [item_dict["HP_02"], item_dict["ATK_03"], item_dict["DEF_01"]])
 
     dungeon_map = Map()
     dungeon_map.connect_room(main_gate, [west_hallway, central_hall, east_hallway])

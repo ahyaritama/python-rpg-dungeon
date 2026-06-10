@@ -1,15 +1,17 @@
-class ShopStack:
+from .item import Item, ItemList
+
+class ShopQueue:
     def __init__(self):
-        self.queue = []
+        self.list: ItemList = []
     
     def enqueue(self, item) -> str:
-        self.queue.append(item)
+        self.list.append(item)
         return f"{item.name} added to cart"
 
-    def dequeue(self):
+    def dequeue(self) -> Item | None:
         if self.is_empty():
             return None
-        return self.queue.pop(0)
+        return self.list.pop(0)
 
-    def is_empty(self):
-        return len(self.queue) == 0
+    def is_empty(self) -> bool:
+        return len(self.list) == 0

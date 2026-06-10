@@ -1,42 +1,46 @@
 from .item import Item
 
-class InventoryItem:
+from ..util import (
+    bubble_sort_ascending,
+    bubble_sort_descending
+)
+
+class InventoryNode:
     def __init__(self, data: Item, qty: int):
         self.data = data
         self.qty = qty
-        self.prev = None
-        self.next = None
+        self.prev: InventoryNode | None = None
+        self.next: InventoryNode | None = None
 
 class Inventory:
     def __init__(self):
-        self.head: InventoryItem = None
+        self.head: InventoryNode | None = None
 
-    def search_by_name(self, name: str) -> tuple[Item, int]:
+    def search_by_name(self, name: str) -> InventoryNode | None:
         current = self.head
-
         while current is not None:
             if current.data.name == name:
-                return current.data, current.qty
+                return current
             current = current.next
 
-        return None, 0
-    def search_by_code(self, code: str) -> tuple[Item, int]:
+        return None
+    
+    def search_by_code(self, code: str) -> InventoryNode | None:
             current = self.head
             
             while current is not None:
                 if current.data.code == code:
-                    return current.data, current.qty
+                    return current
                 current = current.next
                 
-            return None, 0 
+            return None
 
     def insert(self, data: Item, qty: int):
         if self.head is None:
-            self.head = InventoryItem(data, qty)
-            return 
+            self.head = InventoryNode(data, qty)
+            return
         
-        current = self.head
-        tail: InventoryItem = None
+        current = tail = self.head
         while current is not None:
             if current.data.name == data.name:
                 current.qty += qty
@@ -45,11 +49,11 @@ class Inventory:
                 tail = current
             current = current.next
         
-        new_item = InventoryItem(data, qty)
+        new_item = InventoryNode(data, qty)
         tail.next = new_item
         new_item.prev = tail
 
-    def delete(self, data : Item):
+    def delete(self, data: Item):
         current = self.head
 
         while current is not None:
@@ -58,11 +62,12 @@ class Inventory:
                     self.head = current.next
                     if self.head is not None:
                         self.head.prev = None
-                
+
                 else:
-                    current.prev.next = current.next
-                    if current.next is not None:
-                        current.next.prev = current.prev
+                    if current.prev is not None:
+                        current.prev.next = current.next
+                        if current.next is not None:
+                            current.next.prev = current.prev
                 
                 return True
             

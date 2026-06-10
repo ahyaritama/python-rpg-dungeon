@@ -1,21 +1,13 @@
 from ..struct import Player
-from ..util import clear_screen
+from ..util import create_header
 
 def reset_progress(player: Player):
-    clear_screen()
-    header = "=" * 12 + " RESET PROGRESS " + "=" * 12
-
-    print(f"{'Name    '}: {player.name}")
-    print(f"{'Balance '}: {player.money}")
-    print(header)
-
+    header_len = create_header(player.name, player.money, "RESET PROGRESS")
     print("Are you sure want to reset your progress?")
     print("This process is permanent.")
-
-    print("=" * len(header))
+    print("=" * header_len)
     print("[1] Yes")
     print("[*] No")
-
     choice = input("Your Choice: ")
     match choice:
         case "1":

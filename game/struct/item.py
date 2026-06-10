@@ -1,12 +1,16 @@
+type ItemDict = dict[str, Item]
+type ItemList = list[Item]
+type ItemSet = set[Item]
+
 class Item:
-    def __init__(self, name, code, effect, price):
+    def __init__(self, name: str, code: str, effect: int, price: int):
         self.name = name
         self.code = code
         self.effect = effect
         self.price = price
 
-def init():
-    item_dict = {
+def init() -> ItemDict:
+    return {
         "ATK_01": Item("Rusty Sword", "ATK_01", 10, 250),
         "ATK_02": Item("Wooden Bow", "ATK_02", 7, 120),
         "ATK_03": Item("X-Bow", "ATK_03", 10, 300),
@@ -20,5 +24,3 @@ def init():
         "HP_02": Item("Health Potion", "HP_02", 10, 60),
         "HP_03": Item("Meat", "HP_03", 7, 30)
     }
-    
-    return item_dict

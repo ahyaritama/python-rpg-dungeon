@@ -1,4 +1,4 @@
-def validate(username: str, password: str) -> bool:
+def validate(username: str, password: str) -> tuple[bool, str]:
     username_status = True
     password_status = True
     message = ""
