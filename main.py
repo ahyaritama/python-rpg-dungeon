@@ -1,5 +1,5 @@
 from game import auth, core, util, struct
-from game.inventory import item
+from game.struct import item
 from game.struct.map import init as map_init
 from game.struct.skill import build_skill
 

@@ -1,5 +1,3 @@
-# from ...struct import Player
-
 def get_player_stats(username: str) -> dict[str, int]:
     stats_dict: dict[str, int] = dict()
     with open(f"game/storage/stats/{username}", "r") as f:
@@ -17,20 +15,3 @@ def set_player_stats(username: str, stats_dict: dict[str, int]):
     with open(f"game/storage/stats/{username}", "w") as f:
         for key, value in stats_dict.items():
             f.write(f"{key}={value}\n")
-
-# def get_player_stats(username: str) -> dict[str, int]:
-#     stats: dict[str, int] = {}
-#     with open(f"game/storage/stats/{username}", "r") as f:
-#         for line in f:
-#             key, value = line.split("=", 1)
-#             stats[key] = int(value)
-    
-#     return stats
-
-# def set_player_stats(player: Player):
-#     key = ("money", "health", "max_hp", "attack", "defence", "exp", "level")
-#     value = (player.money, *player.stats.values(), player.exp, player.level)
-
-#     with open(f"game/storage/stats/{player.name}", "w") as f:
-#         for i in range(len(key)):
-#             f.write(f"{key[i]}={value[i]}\n")

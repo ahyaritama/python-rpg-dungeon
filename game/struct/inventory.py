@@ -1,10 +1,5 @@
 from .item import Item
 
-from ..util import (
-    bubble_sort_ascending,
-    bubble_sort_descending
-)
-
 class InventoryNode:
     def __init__(self, data: Item, qty: int):
         self.data = data
