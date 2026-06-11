@@ -84,7 +84,7 @@ def _sell_item(player: Player, node: InventoryNode) -> bool | None:
 
     ok = _delete_empty_node(player, node)
     if ok is False:
-        return ok
+        return True
         
 def _use_item(player: Player, node: InventoryNode) -> bool | None:
     ok, msg = player.equip(node.data)
@@ -96,7 +96,7 @@ def _use_item(player: Player, node: InventoryNode) -> bool | None:
     
     ok = _delete_empty_node(player, node)
     if ok is False:
-        return ok
+        return True
 
 def _search(player: Player):
     while True:

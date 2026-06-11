@@ -26,7 +26,7 @@ class Player(Character):
     ):
         super().__init__(
             name,
-            stats_dict.get("health", 100),
+            stats_dict.get("hp", 100),
             stats_dict.get("max_hp", 100),
             stats_dict.get("attack", 15),
             stats_dict.get("defence", 5),
