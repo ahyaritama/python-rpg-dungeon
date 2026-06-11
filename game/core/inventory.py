@@ -41,7 +41,12 @@ def _browse(player: Player, node: InventoryNode | None, ok=False):
             input("[Back]")
             return ok
 
-        _show_item(player, node)
+        print(f"{'Name   '}: {node.data.name}")
+        print(f"{'Code   '}: {node.data.code}")
+        print(f"{'Effect '}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
+        print(f"{'Price  '}: {node.data.price}")
+        print(f"{'Qty    '}: {node.qty}")
+        
         print("=" * header_len)
         print("[1] Prev Item")
         print("[2] Next Item")
