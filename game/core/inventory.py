@@ -7,6 +7,7 @@ from ..util import (
 )
 
 def show_inventory(player: Player):
+    """Main handler for inventory feature"""
     while True:
         header_len = create_header(player.name, player.money, "INVENTORY")
         print("Here you can see the items")
@@ -33,6 +34,11 @@ def show_inventory(player: Player):
 
 # PRIVATE FUNCTION
 def _browse(player: Player, node: InventoryNode | None, ok=False):
+    """Browse all items in inventory and
+    show all available option such as use
+    and sell, player also can move to
+    previous or next item in inventory
+    """
     while True:
         header_len = create_header(player.name, player.money, "INVENTORY")
         if not node:
@@ -41,11 +47,11 @@ def _browse(player: Player, node: InventoryNode | None, ok=False):
             input("[Back]")
             return ok
 
-        print(f"{'Name   '}: {node.data.name}")
-        print(f"{'Code   '}: {node.data.code}")
-        print(f"{'Effect '}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
-        print(f"{'Price  '}: {node.data.price}")
-        print(f"{'Qty    '}: {node.qty}")
+        print(f"Name   : {node.data.name}")
+        print(f"Code   : {node.data.code}")
+        print(f"Effect : {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
+        print(f"Price  : {node.data.price}")
+        print(f"Qty    : {node.qty}")
         
         print("=" * header_len)
         print("[1] Prev Item")
@@ -64,10 +70,14 @@ def _browse(player: Player, node: InventoryNode | None, ok=False):
                 ok = _use_item(player, node)
                 if ok is None:
                     continue
+                elif ok is True:
+                    return ok
             case "4":
                 ok = _sell_item(player, node)
                 if ok is None:
                     continue
+                elif ok is True:
+                    return ok
             case "5":
                 return True
             case _:
@@ -77,16 +87,27 @@ def _browse(player: Player, node: InventoryNode | None, ok=False):
             return False
 
 def _sell_item(player: Player, node: InventoryNode) -> bool | None:
+    """Handler for sell item action, will
+    delete node if qty <= 0 and save the
+    player's stats.
+    """
     player.money += node.data.price
     set_player_stats(player.name, player.get_stats())
     print(f"Successfully sell {node.data.name}")
     input("[OK]")
 
     ok = _delete_empty_node(player, node)
-    if ok is False:
-        return True
+    if ok:
+        return ok
         
 def _use_item(player: Player, node: InventoryNode) -> bool | None:
+    """Handler for use item action, will
+    delete node if qty <= 0. If item is
+    ATK/DEF item, the item will equipped.
+    if item is HP item, the item will
+    consume and save to player's items
+    and stats storage.
+    """
     ok, msg = player.equip(node.data)
     set_player_stats(player.name, player.get_stats())
     print(msg)
@@ -95,10 +116,11 @@ def _use_item(player: Player, node: InventoryNode) -> bool | None:
         return None
     
     ok = _delete_empty_node(player, node)
-    if ok is False:
-        return True
+    if ok:
+        return ok
 
 def _search(player: Player):
+    """Search item handler using code or name"""
     while True:
         header_len = create_header(player.name, player.money, "INVENTORY")
         print("Here you can search")
@@ -134,6 +156,9 @@ def _search(player: Player):
         
 
 def _show_all(player: Player):
+    """Show all items in inventory and give option
+    to sort it by code, name or price.
+    """
     while True:
         header_len = create_header(player.name, player.money, "INVENTORY")
         table_head = f"| {'Name':^15} | {'Code':^6} | {'Qty.':^4} |"
@@ -185,13 +210,16 @@ def _show_all(player: Player):
                 break
 
 def _show_item(player: Player, node: InventoryNode):
+    """Show selected item's detail and give all
+    available options.
+    """
     while True:
         header_len = create_header(player.name, player.money, "INVENTORY")
-        print(f"{'Name   '}: {node.data.name}")
-        print(f"{'Code   '}: {node.data.code}")
-        print(f"{'Effect '}: {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
-        print(f"{'Price  '}: {node.data.price}")
-        print(f"{'Qty    '}: {node.qty}")
+        print(f"Name   : {node.data.name}")
+        print(f"Code   : {node.data.code}")
+        print(f"Effect : {str(node.data.code).split("_", 1)[0]} +{node.data.effect}")
+        print(f"Price  : {node.data.price}")
+        print(f"Qty    : {node.qty}")
         print("=" * header_len)
         print("[1] Use Item")
         print("[2] Sell Item")
@@ -208,7 +236,7 @@ def _show_item(player: Player, node: InventoryNode):
                     continue
                 
                 ok = _delete_empty_node(player, node)
-                if not ok:
+                if ok:
                     break
             case "2":
                 player.money += node.data.price
@@ -216,16 +244,17 @@ def _show_item(player: Player, node: InventoryNode):
                 print(f"Successfully sell {node.data.name}")
                 input("[OK]")
                 ok = _delete_empty_node(player, node)
-                if not ok:
+                if ok:
                     break
             case _:
                 break
 
 def _delete_empty_node(player: Player, node: InventoryNode) -> bool:
+    """Delete a zero qty node."""
     node.qty -= 1
     if node.qty <= 0:
         player.inventory.delete(node.data)
         set_player_items(player.name, player.get_items())
-        return False
+        return True
     set_player_items(player.name, player.get_items())
-    return True
+    return False

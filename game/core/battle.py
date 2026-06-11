@@ -3,6 +3,10 @@ from ..struct.skill import SkillList
 from ..util import create_header, set_player_stats
 
 def start_battle(player: Player, monster: Monster, skill_list: SkillList) -> bool:
+    """Player vs Monster battle handler, reset
+    monster if player win (player dead). Circular
+    Linked List used to change turn.
+    """
     battle = Battle()
     battle.add_char(player)
     battle.add_char(monster)
@@ -42,6 +46,11 @@ def start_battle(player: Player, monster: Monster, skill_list: SkillList) -> boo
 
 # PRIVATE FUNCTION
 def _monster_attack_action(monster: Monster, player: Player):
+    """Calculate monster damage to player
+    and save the player's stats to file. If
+    the player is dead, reset all of player's
+    progress.
+    """
     defence = player.stats["DEF"] + player.equipment.get_total_defence()
     damage = max(0, monster.stats["ATK"] - defence)
 
@@ -56,6 +65,11 @@ def _monster_attack_action(monster: Monster, player: Player):
 
 
 def _player_attack_action(player: Player, monster: Monster, bonus: int = 0):
+    """Calculate player damage to monster,
+    apply bonus damage if available. If Player
+    win, add exp and coin to player's stats and
+    save player's stats to file
+    """
     attack = player.stats["ATK"] + player.equipment.get_total_attack() + bonus
     damage = max(0, attack - monster.stats["DEF"])
 
@@ -77,6 +91,7 @@ def _player_attack_action(player: Player, monster: Monster, bonus: int = 0):
     return False
 
 def _show_stats(player: Player, monster: Monster):
+    """Show battle stats between player and monster"""
     print(f"Name   : {player.name}")
     print(f"Health : {player.stats["HP"]}")
     print(f"ATK    : {player.stats["ATK"]} (+{player.equipment.get_total_attack()})")
@@ -90,6 +105,10 @@ def _show_stats(player: Player, monster: Monster):
     print(f"DEF    : {monster.stats["DEF"]}")
 
 def _skill_handler(player: Player, monster: Monster, skill: Skill) -> tuple[bool, int]:
+    """Handle player's stats change when using a skill.
+    If using an attacking skill, will also return a
+    bonus ATK attribute.
+    """
     bonus = 0
     match skill.name:
         case "Baraju Spinner":
@@ -134,6 +153,7 @@ def _skill_handler(player: Player, monster: Monster, skill: Skill) -> tuple[bool
     return True, bonus
 
 def _use_skill(player: Player, monster: Monster, skill_list: SkillList, battle: Battle) -> bool:
+    """Handle when player try to using skills in a battle."""
     if battle.cooldown > 0:
         print(f"You cannot use skills in {battle.cooldown} rounds.")
         return _player_attack_action(player, monster)

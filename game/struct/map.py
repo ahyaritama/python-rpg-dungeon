@@ -2,6 +2,7 @@ from .item import ItemDict, ItemList
 from .monster import Monster
 
 class MoveStack:
+    """Stack implementation to undo a move."""
     def __init__(self, stack: list[str]):
         self.stack = []
 
@@ -23,6 +24,7 @@ class Room:
         self.item_list = item_list
 
 class Map:
+    """Graph implementation as a dungeon map."""
     def __init__(self):
         self.graph: dict[str, tuple[Room, list[Room]]] = {}
     
@@ -41,6 +43,7 @@ class Map:
 
 
 def init(monster: list[Monster], item_dict: ItemDict):
+    """Initialize and return a full dungeon map."""
     main_gate = Room("Main Gate", monster[0], [])
     west_hallway = Room("West Hallway", monster[1], [item_dict["DEF_02"]])
     central_hall = Room("Central Hall", monster[2], [item_dict["HP_02"]])

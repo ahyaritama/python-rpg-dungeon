@@ -10,6 +10,7 @@ class Item:
         self.price = price
 
 def init() -> ItemDict:
+    """Return dictionary code: item"""
     return {
         "ATK_01": Item("Rusty Sword", "ATK_01", 10, 250),
         "ATK_02": Item("Wooden Bow", "ATK_02", 7, 120),

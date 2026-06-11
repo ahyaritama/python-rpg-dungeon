@@ -10,6 +10,7 @@ from ..util import (
 )
 
 def explore(player: Player, skill_list: SkillList, dungeon_map: Map):
+    """Main handler of explore feature."""
     while True:
         header_len = create_header(player.name, player.money, "EXPLORE")
         print("Well adventurers, it looks like")
@@ -32,6 +33,10 @@ def explore(player: Player, skill_list: SkillList, dungeon_map: Map):
 
 # PRIVATE FUNCTION
 def _build_menu_option(player: Player, skill_list: SkillList, dungeon_map: Map):
+    """Build and print available option in
+    player's position and return dictionary
+    with callable as the value.
+    """
     print("[0] Show Rooms")
     options = {"0": lambda: _show_room_handler(player, dungeon_map)}
     if not player.is_room_cleared(player.position):
@@ -54,6 +59,10 @@ def _build_menu_option(player: Player, skill_list: SkillList, dungeon_map: Map):
     return options
 
 def _check_room_handler(player: Player, dungeon_map: Map):
+    """Check if monster in this room already
+    defeated. After defeated, player can explore
+    another room.
+    """
     print(f"Your position: {player.position}")
     if not player.is_room_cleared(player.position):
         monster = dungeon_map.graph[player.position][0].monster
@@ -71,6 +80,10 @@ def _check_room_handler(player: Player, dungeon_map: Map):
         print("the other rooms.")
     
 def _clear_room(player: Player, room: Room):
+    """Mark this room as clear, take
+    items from this room and save it to
+    player's items storage.
+    """
     if len(room.item_list) > 0:
         header_len = create_header(player.name, player.money, "EXPLORE")
         print("You find these items in the room:")
@@ -85,10 +98,14 @@ def _clear_room(player: Player, room: Room):
     set_player_rooms(player.name, player.get_rooms())
 
 def _set_player_position(player: Player, room_name: str):
+    """Set player's new position and
+    add old position to move stack.
+    """
     player.move_list.push(player.position)
     player.set_position(room_name)
 
 def _show_room_handler(player: Player, dungeon_map: Map):
+    """Show all rooms and all connected rooms"""
     header_len = create_header(player.name, player.money, "EXPLORE")
     dungeon_map.display_room()
     print("=" * header_len) 

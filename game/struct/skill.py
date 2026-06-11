@@ -9,12 +9,14 @@ class Skill:
         self.min_level = min_level
 
 class SkillNode:
+    """Binary Tree Node for skill implementation."""
     def __init__(self, data: Skill):
         self.data = data
         self.left: SkillNode | None = None
         self.right: SkillNode | None = None
 
 class SkillTree:
+    """Binary Search Tree implementation for skill"""
     def __init__(self):
         self.root: SkillNode | None = None
         
@@ -52,7 +54,8 @@ class SkillTree:
             self._in_order_recursive(current.right, result_list)
 
 
-def build_skill() -> SkillTree:
+def build() -> SkillTree:
+    """Build skill and return as Binary Search Tree."""
     skill_tree = SkillTree()
     skill_tree.insert(Skill(4, "Cyclone Drill", "ATK", 5, 1))
 

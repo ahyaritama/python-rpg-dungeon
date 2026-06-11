@@ -6,6 +6,9 @@ from ..util import (
 )
 
 def show_skills(player: Player, skill_tree: SkillTree):
+    """Main handler of skill feature. Show all player's
+    unlocked skills and its details.
+    """
     while True:
         header_len = create_header(player.name, player.money, "SKILLS")
         print("Your Active Skills:\n")
@@ -23,6 +26,9 @@ def show_skills(player: Player, skill_tree: SkillTree):
 
 # PRIVATE FUNCTION
 def _learn_skill(player: Player, skill_node: SkillNode | None, skill_id: int):
+    """Unlock a skill and validate if player is eligible to
+    unlock that skill.
+    """
     if not skill_node:
         print("Skill not found")
         input("[OK]")
@@ -61,6 +67,7 @@ def _learn_skill(player: Player, skill_node: SkillNode | None, skill_id: int):
         _learn_skill(player, skill_node.right, skill_id)
 
 def _select_skill(player: Player, skill_tree: SkillTree):
+    """Handler for select locked skills."""
     while True:
         header_len = create_header(player.name, player.money, "SKILLS")
         is_available = _show_locked_skill(player, skill_tree)
@@ -78,6 +85,7 @@ def _select_skill(player: Player, skill_tree: SkillTree):
             break
 
 def _show_locked_skill(player: Player, skill_tree: SkillTree) -> bool:
+    """Show all of player's locked skills"""
     skill_list = skill_tree.in_order()
     if len(player.skill_set) == len(skill_list):
         print("You have unlocked all skills")
@@ -105,6 +113,7 @@ def _show_locked_skill(player: Player, skill_tree: SkillTree) -> bool:
     return True
 
 def _show_unlocked_skill(player: Player, skill_tree: SkillTree):
+    """Show all of player's unlocked skills"""
     if len(player.skill_set) <= 0:
         print("You haven't unlocked any skills")
         return

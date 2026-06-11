@@ -1,6 +1,7 @@
 from .item import Item, ItemList
 
 class ShopQueue:
+    """Queue implementation when buying items."""
     def __init__(self):
         self.list: ItemList = []
     

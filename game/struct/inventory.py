@@ -1,6 +1,9 @@
 from .item import Item
 
 class InventoryNode:
+    """Double Linked List Node for inventory implementation
+    with item as data.
+    """
     def __init__(self, data: Item, qty: int):
         self.data = data
         self.qty = qty
@@ -8,10 +11,12 @@ class InventoryNode:
         self.next: InventoryNode | None = None
 
 class Inventory:
+    """Double Linked List implementation for inventory."""
     def __init__(self):
         self.head: InventoryNode | None = None
 
     def search_by_name(self, name: str) -> InventoryNode | None:
+        """Linear Search for search item by name"""
         current = self.head
         while current is not None:
             if current.data.name == name:
@@ -21,16 +26,18 @@ class Inventory:
         return None
     
     def search_by_code(self, code: str) -> InventoryNode | None:
-            current = self.head
+        """Linear Search for search item by name"""
+        current = self.head
+        
+        while current is not None:
+            if current.data.code == code:
+                return current
+            current = current.next
             
-            while current is not None:
-                if current.data.code == code:
-                    return current
-                current = current.next
-                
-            return None
+        return None
 
     def insert(self, data: Item, qty: int):
+        """Insert an item node to inventory's Double Linked List."""
         if self.head is None:
             self.head = InventoryNode(data, qty)
             return
@@ -49,6 +56,7 @@ class Inventory:
         new_item.prev = tail
 
     def delete(self, data: Item):
+        """Delete an item node from inventory's Double Linked List."""
         current = self.head
 
         while current is not None:
@@ -71,6 +79,7 @@ class Inventory:
         return False
     
     def sort_by_code(self, ascending: bool = True):
+        """Sorting implementation for sort item by code"""
         if self.head is None:
             return
         
@@ -92,6 +101,7 @@ class Inventory:
                 current = current.next
 
     def sort_by_name(self, ascending: bool = True):
+        """Sorting implementation for sort item by name"""
         if self.head is None:
             return
         
@@ -113,6 +123,7 @@ class Inventory:
                 current = current.next
 
     def sort_by_price(self, ascending: bool = True):
+        """Sorting implementation for sort item by price"""
         if self.head is None:
             return
         
@@ -131,52 +142,4 @@ class Inventory:
                     current.qty, current.next.qty = current.next.qty, current.qty
                     swapped = True
                 
-                current = current.next
-
-    def sort_by_code_descending(self):
-        if self.head is None:
-            return
-        
-        swapped = True
-        while swapped:
-            swapped = False
-            current = self.head
-            while current.next is not None:
-                if current.data.code < current.next.data.code:
-                    
-                    current.data, current.next.data = current.next.data, current.data
-                    current.qty, current.next.qty = current.next.qty, current.qty
-                    swapped = True
-                current = current.next
-
-    def sort_by_name_descending(self):
-        if self.head is None:
-            return
-        
-        swapped = True
-        while swapped:
-            swapped = False
-            current = self.head
-            while current.next is not None:
-                if current.data.name < current.next.data.name:
-                    
-                    current.data, current.next.data = current.next.data, current.data
-                    current.qty, current.next.qty = current.next.qty, current.qty
-                    swapped = True
-                current = current.next
-
-    def sort_by_price_descending(self):
-        if self.head is None:
-            return
-        
-        swapped = True
-        while swapped:
-            swapped = False
-            current = self.head
-            while current.next is not None:
-                if current.data.price < current.next.data.price:
-                    
-                    current.data, current.next.data = current.next.data, current.data
-                    current.qty, current.next.qty = current.next.qty, current.qty
-                    swapped = True
                 current = current.next

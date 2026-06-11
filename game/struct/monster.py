@@ -28,6 +28,7 @@ class Monster(Character):
         self.stats["HP"] = self.stats["Max HP"]
 
 def init() -> list[Monster]:
+    """Initialize monster and return as list of monster."""
     return [
         Monster("Serpo", 30, 8, 2, 15, 10),
         Monster("Goche", 40, 10, 3, 20, 15),

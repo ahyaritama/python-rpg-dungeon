@@ -44,6 +44,8 @@ class Player(Character):
         self.cleared_rooms = rooms_tup[2]
 
     def check_level_up(self):
+        """Check if player can up level (exp >= 100) and
+        update base stats."""
         if self.exp < 100:
             return
         
@@ -63,6 +65,7 @@ class Player(Character):
         self.check_level_up()
     
     def clear_room(self, room_name: str) -> bool:
+        """Mark a room as visited."""
         if self.is_room_cleared(room_name):
             return False
         
@@ -70,6 +73,7 @@ class Player(Character):
         return True
     
     def equip(self, item: Item) -> tuple[bool, str]:
+        """Equip an item if ATK or DEF item, consume if HP item."""
         ok, msg = self.equipment.equip(self.name, item)
         if ok is None:
             self.stats["HP"] += item.effect
@@ -81,6 +85,7 @@ class Player(Character):
         return ok, msg
 
     def get_items(self) -> list[tuple[str, int]]:
+        """Get player's items as raw list."""
         item_list: list[tuple[str, int]] = []
 
         current = self.inventory.head
@@ -91,9 +96,11 @@ class Player(Character):
         return item_list
     
     def get_rooms(self) -> tuple[str, list[str], set[str]]:
+        """Get player's position, moves, and visited room as raw tuple."""
         return (self.position, self.move_list.stack, self.cleared_rooms)
 
     def get_stats(self) -> dict[str, int]:
+        """Get player's stats as raw dict."""
         return {
             "money": self.money,
             "hp": self.stats["HP"],
@@ -111,6 +118,7 @@ class Player(Character):
         return room_name in self.cleared_rooms
     
     def reset(self):
+        """Reset all player's progress."""
         self.money = 0
         self.exp = 0
         self.level = 1
@@ -131,4 +139,5 @@ class Player(Character):
         set_player_stats(self.name, self.get_stats())
     
     def set_position(self, room_name: str):
+        """Set player's position"""
         self.position = room_name

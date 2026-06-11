@@ -1,4 +1,5 @@
 class Character:
+    """Parent of class Player and class Monster"""
     def __init__(
         self,
         name: str,

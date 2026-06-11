@@ -13,6 +13,7 @@ from ..struct import (
 from ..util import create_header
 
 def main_menu(player: Player, items: dict[str, Item], skill_tree: SkillTree, dungeon_map: Map):
+    """Main menu handler."""
     while True:
         header_len = create_header(player.name, player.money, "MAIN MENU")
     

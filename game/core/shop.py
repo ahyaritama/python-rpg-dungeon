@@ -7,6 +7,9 @@ from ..util import (
 )
 
 def show_shop(player: Player, item_dict: ItemDict):
+    """Main handler of shop feature. Player can
+    select all of available items and add to cart.
+    """
     shop_queue = ShopQueue()
     while True:
         header_len = create_header(player.name, player.money, "SHOP")
@@ -35,6 +38,9 @@ def show_shop(player: Player, item_dict: ItemDict):
 
 # PRIVATE FUNCTION
 def _pay(player: Player, queue: ShopQueue):
+    """Pay handler, will return when player's
+    money not enough to pay an item, all remain
+    items in cart will reset."""
     header_len = create_header(player.name, player.money, "SHOP")
 
     if queue.is_empty():
@@ -61,6 +67,7 @@ def _pay(player: Player, queue: ShopQueue):
 
 
 def _view_cart(player: Player, queue: ShopQueue):
+    """View all items on cart."""
     header_len = create_header(player.name, player.money, "SHOP")
     if queue.is_empty():
         print("Your cart is empty.")
