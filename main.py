@@ -1,14 +1,14 @@
-from game import auth, core, util, struct
-from game.struct import item
+from game import auth, core, util
+from game.struct import item, monster, skill
 from game.struct.map import init as map_init
-from game.struct.skill import build_skill
+
 
 def main():
     players = auth.load()
-    monster = struct.monster.init()
-    items = item.init()
-    dungeon_map = map_init(monster, items)
-    skill_tree = build_skill()
+    monster_list = monster.init()
+    item_dict = item.init()
+    dungeon_map = map_init(monster_list, item_dict)
+    skill_tree = skill.build()
 
     while True:
         util.clear_screen()
@@ -19,7 +19,7 @@ def main():
 
         match choice:
             case "1":
-                player = auth.login(players, items)
+                player = auth.login(players, item_dict)
                 if not player:
                     util.clear_screen()
                     continue
@@ -32,7 +32,7 @@ def main():
                 print("\nThank you for playing our game!")
                 break
         
-        core.main_menu(player, items, skill_tree, dungeon_map)
+        core.main_menu(player, item_dict, skill_tree, dungeon_map)
     
 
 if __name__ == "__main__":
