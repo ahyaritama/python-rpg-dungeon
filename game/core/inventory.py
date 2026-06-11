@@ -41,6 +41,7 @@ def _browse(player: Player, node: InventoryNode | None, ok=False):
             input("[Back]")
             return ok
 
+        _show_item(player, node)
         print("=" * header_len)
         print("[1] Prev Item")
         print("[2] Next Item")

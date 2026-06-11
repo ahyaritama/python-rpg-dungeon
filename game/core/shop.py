@@ -69,7 +69,7 @@ def _view_cart(player: Player, queue: ShopQueue):
         return
 
     for item in queue.list:
-        print(f"{item.name:<14} ({item.price:<3} Gold)")
+        print(f"{item.name:<14} ({item.price:<3} Coin)")
     print("=" * header_len)
     print("[0] Pay")
     print("[*] Back")

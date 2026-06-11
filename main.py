@@ -13,7 +13,7 @@ def main():
     while True:
         util.clear_screen()
         print("[1] Login")
-        print("[2] Create Account")
+        print("[2] Register")
         print("[*] Quit")
         choice = input("Your Choice: ")
 
