@@ -16,7 +16,7 @@ def show_shop(player: Player, item_dict: ItemDict):
         item_codes: dict[str, str] = {}
         for i, item in enumerate(item_dict.values(), 1):
             item_codes[str(i)] = item.code
-            print(f"{f'[{i}]':<4} {item.name:<14} ({item.price:<3} Gold)")
+            print(f"{f'[{i}]':<4} {item.name:<14} ({item.price:<3} Coin)")
         print("=" * header_len)
         print("[0] View Cart")
         print("[*] Back")
